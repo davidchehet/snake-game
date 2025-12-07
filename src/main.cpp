@@ -136,6 +136,7 @@ public:
     int score = 0;
     Sound eatSound;
     Sound wallSound;
+    int bestScore = 0;
 
     Game()
     {
@@ -210,6 +211,11 @@ public:
         snake.Reset();
         food.position = food.GenerateRandomPos(snake.body);
         running = false;
+        if (score > bestScore)
+        {
+            bestScore = score;
+        }
+
         score = 0;
         PlaySound(wallSound);
     }
@@ -262,7 +268,8 @@ int main ()
         ClearBackground(green);
         DrawRectangleLinesEx(Rectangle{ (float)offset -5, (float)offset - 5, (float)cellSize*cellCount+10, (float)cellSize*cellCount+10 }, 5, darkGreen);
         DrawText("Retro Snake", offset - 5, 20, 40, darkGreen);
-        DrawText(TextFormat("%i", game.score), offset + cellSize*cellCount+10, 20, 40, darkGreen);
+        DrawText(TextFormat("Current Score: %i", game.score), cellSize*cellCount - 200, 20, 20, darkGreen);
+        DrawText(TextFormat("Best Score: %i", game.bestScore), cellSize*cellCount - 200, 40, 20, darkGreen);
         game.Draw();
 
         EndDrawing();
